@@ -6,22 +6,22 @@ const kMobilePhysics = BouncingScrollPhysics();
 const kDesktopPhysics = NeverScrollableScrollPhysics();
 
 class ScrollState with ChangeNotifier {
-  final ScrollController controller = ScrollController();
   ScrollPhysics physics = kMobilePhysics;
   double futurePosition = 0;
   bool updateState = false;
 
+  final ScrollController controller;
   final ScrollPhysics mobilePhysics;
   final int durationMS;
 
   bool prevDeltaPositive = false;
-  double? lastLock = null;
+  double? lastLock;
 
   Future<void>? _animationEnd;
 
   Function()? handlePipelinedScroll;
 
-  ScrollState(this.mobilePhysics, this.durationMS);
+  ScrollState(this.controller, this.mobilePhysics, this.durationMS);
 
   static double calcMaxDelta(ScrollController controller, double delta) {
     return delta > 0 ? 

@@ -6,14 +6,17 @@ void main() {
 }
 
 class BasicUsageApp extends StatelessWidget {
-  const BasicUsageApp({super.key});
+  BasicUsageApp({super.key});
+
+  final ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
           body: DynMouseScroll(
-              builder: (context, controller, physics) => ListView(
+            controller: controller,
+              builder: (context, physics) => ListView(
                     controller: controller,
                     physics: physics,
                     children: List.generate(
@@ -29,17 +32,20 @@ class BasicUsageApp extends StatelessWidget {
 }
 
 class CustomSettingsUsageApp extends StatelessWidget {
-  const CustomSettingsUsageApp({super.key});
+  CustomSettingsUsageApp({super.key});
+
+  final controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
           body: DynMouseScroll(
-			  durationMS = 500,
-			  scrollSpeed = 4.4,
-			  animationCurve = Curves.easeOutQuart,
-              builder: (context, controller, physics) => ListView(
+              controller: controller,
+              durationMS: 500,
+              scrollSpeed: 4.4,
+              animationCurve: Curves.easeOutQuart,
+              builder: (context, physics) => ListView(
                     controller: controller,
                     physics: physics,
                     children: List.generate(
@@ -64,14 +70,14 @@ class LinkedPhysicsApp extends StatelessWidget {
             body: Center(
                 child: Column(children: [
       Expanded(
-          child: Row(children: const [
-        MyScrollingWidget(height: 100, colors: [Colors.blue, Colors.red]),
-        MyScrollingWidget(height: 200, colors: [Colors.yellow, Colors.green]),
+          child: Row(children: [
+        MyScrollingWidget(height: 100, colors: const [Colors.blue, Colors.red]),
+        MyScrollingWidget(height: 200, colors: const [Colors.yellow, Colors.green]),
       ])),
       Expanded(
-          child: Row(children: const [
-        MyScrollingWidget(height: 150, colors: [Colors.purple, Colors.orange]),
-        MyScrollingWidget(height: 80, colors: [Colors.black, Colors.white])
+          child: Row(children: [
+        MyScrollingWidget(height: 150, colors: const [Colors.purple, Colors.orange]),
+        MyScrollingWidget(height: 80, colors: const [Colors.black, Colors.white])
       ]))
     ]))));
   }
@@ -80,16 +86,19 @@ class LinkedPhysicsApp extends StatelessWidget {
 class MyScrollingWidget extends StatelessWidget {
   final List<Color> colors;
   final double height;
-  const MyScrollingWidget(
+
+  MyScrollingWidget(
       {Key? key, required this.colors, required this.height})
       : super(key: key);
+
+  final controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: DynMouseScroll(
-            hasParentListener: true,
-            builder: (context, controller, physics) => ListView(
+          controller: controller,
+            builder: (context, physics) => ListView(
                   controller: controller,
                   physics: physics,
                   children: List.generate(
